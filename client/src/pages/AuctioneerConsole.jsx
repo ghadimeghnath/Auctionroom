@@ -1,18 +1,27 @@
 import { Link } from 'react-router-dom';
 import { socket } from '../socket.js';
 import { useAuctionState } from '../hooks/useAuctionState.js';
+import { useAuctioneerAuth } from '../hooks/useAuctioneerAuth.js';
 import { MIN_PRICE, canBid } from '../constants.js';
 import Scoreboard from '../components/Scoreboard.jsx';
 import TeamGrid from '../components/TeamGrid.jsx';
+import AuctioneerGate from '../components/AuctioneerGate.jsx';
 
 export default function AuctioneerConsole() {
   const { state, connected } = useAuctionState();
+  const { status: authStatus, error: authError, tryAuth } = useAuctioneerAuth(connected);
 
   if (!state) {
     return (
       <div className="page-loading">
         <p>{connected ? 'Waiting for auction data…' : 'Connecting to auction server…'}</p>
       </div>
+    );
+  }
+
+  if (authStatus !== 'authed') {
+    return (
+      <AuctioneerGate connected={connected} status={authStatus} error={authError} onSubmit={tryAuth} />
     );
   }
 

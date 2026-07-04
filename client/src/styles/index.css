@@ -618,3 +618,54 @@ h3,
   background: var(--red);
   box-shadow: 0 0 0 3px var(--red-glow);
 }
+
+/* ===== Auctioneer password gate ===== */
+.gate-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 32px;
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+.gate-card h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: var(--text);
+}
+.gate-card p {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.gate-card input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: var(--panel-raised);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-family: 'Inter';
+  font-size: 14px;
+  margin-bottom: 14px;
+}
+.gate-card input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+.gate-error {
+  color: var(--red);
+  font-size: 12px;
+  margin-top: 12px;
+}
+.gate-back {
+  display: inline-block;
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  text-decoration: none;
+}
+.gate-back:hover {
+  color: var(--amber);
+}
