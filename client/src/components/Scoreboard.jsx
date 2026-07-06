@@ -1,6 +1,6 @@
-export default function Scoreboard({ playerName, currentBid, active }) {
+export default function Scoreboard({ playerName, currentBid, active, isStriking}) {
   return (
-    <div className="ticker">
+    <div className={`ticker`}>
       <div className="ticker-top">
         <div className="brand">
           <div className="brand-mark"></div>
@@ -13,13 +13,19 @@ export default function Scoreboard({ playerName, currentBid, active }) {
       <div className="scoreboard">
         <div className="sb-player">
           <div className="sb-label">On the block</div>
-          <div className={`sb-name${active ? '' : ' empty'}`}>
+          <div
+  key={playerName}
+  className={`sb-name${active ? '' : ' empty'} player-enter`}
+>
             {active ? playerName : '— waiting for next player —'}
           </div>
         </div>
         <div className="sb-bid-block">
           <div className="sb-label">Current bid</div>
-          <div className="sb-bid">₹{Number(currentBid || 0).toLocaleString('en-IN')}</div>
+          <div
+key={currentBid}
+className="sb-bid bid-pop"
+>₹{Number(currentBid || 0).toLocaleString('en-IN')}</div>
         </div>
         <div className="sb-status">
           <span className={`status-pill ${active ? 'status-open' : 'status-idle'}`}>

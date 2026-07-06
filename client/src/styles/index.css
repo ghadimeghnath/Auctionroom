@@ -12,7 +12,11 @@
   --text: #edeff4;
   --muted: #8a93a6;
   --muted-2: #5a6483;
+--lightning-flash: #ffffff;
+  --lightning-edge: #00d2ff;
+  --lightning-glow: rgba(0, 210, 255, 0.6);
 }
+
 
 * {
   box-sizing: border-box;
@@ -49,6 +53,7 @@ h3,
   top: 0;
   z-index: 10;
 }
+
 .ticker-top {
   display: flex;
   align-items: center;
@@ -155,6 +160,39 @@ h3,
   color: var(--amber);
   font-family: 'Space Mono', monospace;
   line-height: 1;
+}
+.bid-pop{
+
+animation:bidIncrease .45s cubic-bezier(.18,.89,.32,1.28);
+
+}
+
+@keyframes bidIncrease{
+
+0%{
+
+transform:scale(.75);
+opacity:.3;
+filter:blur(6px);
+
+}
+
+50%{
+
+transform:scale(1.15);
+
+}
+
+100%{
+
+transform:scale(1);
+
+opacity:1;
+
+filter:none;
+
+}
+
 }
 .sb-status {
   text-align: right;
@@ -646,4 +684,28 @@ h3,
 .conn-dot.off {
   background: var(--red);
   box-shadow: 0 0 0 3px var(--red-glow);
+}
+.player-enter{
+    animation:playerReveal .65s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes playerReveal{
+
+0%{
+opacity:0;
+transform:translateY(20px) scale(.97);
+filter:blur(10px);
+}
+
+70%{
+opacity:1;
+transform:translateY(-3px) scale(1.02);
+}
+
+100%{
+opacity:1;
+transform:none;
+filter:blur(0);
+}
+
 }
