@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: auction-room-server
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ALLOWED_ORIGIN
+        value: https://your-auction-room.netlify.app
