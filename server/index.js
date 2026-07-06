@@ -1,3 +1,4 @@
+require('dotenv').config(); // ◄ Load environment variables at the very top
 const express = require('express');
 const http = require('http');
 const cors = require('cors');
@@ -46,7 +47,7 @@ function freshLot() {
 let state = {
   teams: freshTeams(),
   players: loadInitialPlayers(),
-  lastAction: null, // Tracks the last sold/unsold action for the Undo feature
+  lastAction: null, 
   ...freshLot(),
 };
 
@@ -79,6 +80,19 @@ function broadcast() { io.emit('state', state); }
 
 io.on('connection', (socket) => {
   socket.emit('state', state);
+
+  // NEW: Authentication handler for the Gate console
+  socket.on('authenticate', (password, callback) => {
+    const correctPassword = process.env.AUCTIONEER_PASSWORD;
+    if (!correctPassword) {
+      return callback({ ok: false, error: 'Server password not configured.' });
+    }
+    if (password === correctPassword) {
+      callback({ ok: true });
+    } else {
+      callback({ ok: false });
+    }
+  });
 
   socket.on('selectPlayerFromList', (playerId) => {
     const player = state.players.find(p => p.id === playerId);
@@ -130,10 +144,8 @@ io.on('connection', (socket) => {
     const check = canBid(team, bid, group);
     if (!check.ok) return;
 
-    // Save action for undo
     state.lastAction = { type: 'SOLD', playerId: state.currentPlayerId, teamName: team.name, price: bid };
 
-    // Update state
     team.players.push({ id: state.currentPlayerId, name, price: bid, group });
     team.purse -= bid;
     
@@ -147,7 +159,6 @@ io.on('connection', (socket) => {
   socket.on('skipPlayer', () => {
     if (!state.currentPlayerId) return;
     
-    // Save action for undo
     state.lastAction = { type: 'UNSOLD', playerId: state.currentPlayerId };
 
     const player = state.players.find(p => p.id === state.currentPlayerId);
@@ -157,7 +168,6 @@ io.on('connection', (socket) => {
     broadcast();
   });
 
-  // NEW: Undo last action logic
   socket.on('undoLastAction', () => {
     if (!state.lastAction) return;
 
@@ -167,16 +177,14 @@ io.on('connection', (socket) => {
     if (type === 'SOLD') {
       const team = state.teams.find(t => t.name === teamName);
       if (team) {
-        // Refund and remove player from roster
         team.purse += price;
         team.players = team.players.filter(p => p.id !== playerId);
       }
     }
 
     if (player) {
-      player.status = 'available'; // Put them back in the available pool
+      player.status = 'available'; 
       
-      // Auto-select the undone player to put them right back on the block
       state.currentPlayerId = player.id;
       state.playerName = player.name;
       state.playerGroup = player.group;
@@ -186,7 +194,7 @@ io.on('connection', (socket) => {
       state.soldTo = '';
     }
 
-    state.lastAction = null; // Clear history after undo
+    state.lastAction = null; 
     broadcast();
   });
 

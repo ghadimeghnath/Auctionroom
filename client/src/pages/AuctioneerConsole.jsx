@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { socket } from '../socket.js';
 import { useAuctionState } from '../hooks/useAuctionState.js';
+import { useAuctioneerAuth } from '../hooks/useAuctioneerAuth.js'; // ◄ Import Auth Hook
+import AuctioneerGate from '../components/AuctioneerGate.jsx';       // ◄ Import Gate Component
 import {
   GROUP_A_BASE,
   GROUP_B_BASE,
@@ -15,8 +17,22 @@ import TeamGrid from '../components/TeamGrid.jsx';
 
 export default function AuctioneerConsole() {
   const { state, connected } = useAuctionState();
-  const [searchTerm, setSearchTerm] = useState(''); // Local state for text search
+  const { status, error, tryAuth } = useAuctioneerAuth(connected); // ◄ Instantiate auth hook
+  const [searchTerm, setSearchTerm] = useState(''); 
 
+  // Security Interception: If not authenticated, render the login gate instead
+  if (status !== 'authed') {
+    return (
+      <AuctioneerGate
+        connected={connected}
+        status={status}
+        error={error}
+        onSubmit={tryAuth}
+      />
+    );
+  }
+
+  // If we are authenticated but socket data hasn't arrived yet
   if (!state) {
     return (
       <div className="page-loading">
@@ -32,12 +48,10 @@ export default function AuctioneerConsole() {
   const anyEligible   = state.teams.some((t) => canBid(t, state.currentBid, playerGroup).ok);
   const soldDisabled  = !active || !state.soldTo || !eligibleCheck.ok;
 
-  // Filter master list based on the search term
   const masterList = state.players || [];
   const searchLower = searchTerm.toLowerCase();
   const filteredList = masterList.filter(p => p.name.toLowerCase().includes(searchLower));
 
-  // Separate pools into Group A and Group B for the dropdowns
   const availableA = filteredList.filter(p => p.group === 'A' && (p.status === 'available' || p.status === 'unsold'));
   const availableB = filteredList.filter(p => p.group === 'B' && (p.status === 'available' || p.status === 'unsold'));
   const finalizedSold = masterList.filter(p => p.status === 'sold' && p.name.toLowerCase().includes(searchLower));
