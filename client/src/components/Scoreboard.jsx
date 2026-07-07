@@ -25,7 +25,7 @@ export default function Scoreboard({ playerName, currentBid, active, isStriking}
           <div
 key={currentBid}
 className="sb-bid bid-pop"
->₹{Number(currentBid || 0).toLocaleString('en-IN')}</div>
+>{Number(currentBid || 0).toLocaleString('en-IN')}</div>
         </div>
         <div className="sb-status">
           <span className={`status-pill ${active ? 'status-open' : 'status-idle'}`}>
