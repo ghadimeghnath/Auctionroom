@@ -44,10 +44,10 @@ export default function TeamCard({ team, active, currentBid, playerGroup = 'B' }
       <div className="team-top">
         <div className="team-id">
           <div className="badge" style={{ background: TEAM_COLORS[team.name] }}>
-            {team.name}
+          
           </div>
           <div>
-            <div className="team-name">Team {team.name}</div>
+            <div className="team-name">{team.name}</div>
             <div className="team-tag">
               {team.players.length} / {TOTAL_SLOTS} signed
             </div>

@@ -10,14 +10,14 @@ export const BID_INCREMENT = 300;     // Standard bid increment
 export const MIN_PRICE = GROUP_B_BASE;
 
 export const TEAM_COLORS = {
-  A: '#e8483d',
-  B: '#f2b705',
-  C: '#2f9e44',
-  D: '#2a7de1',
-  E: '#a259e8',
-  F: '#e85fa0',
-  G: '#3ec6c6',
-  H: '#f2823d',
+  'Shaky Boys': '#e8483d',
+  'Shield United': '#070501ff',
+  'Prime 11': '#2f9e44',
+  'Pheonix FC': '#2a7de1',
+  'Crown United': '#a259e8',
+  'Black Stone FC': '#e85fa0',
+  'Bambolino FC': '#3ec6c6',
+  'Arsenal': '#f2823d',
 };
 
 export function remainingSlots(team) {
