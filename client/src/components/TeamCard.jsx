@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  TEAM_COLORS,
   TOTAL_SLOTS,
   MIN_PRICE,
   MAX_GROUP_A,
@@ -8,6 +7,7 @@ import {
   maxAllowedBid,
   groupACount,
   canBid,
+  TEAM_LOGOS,
 } from '../constants.js';
 
 export default function TeamCard({ team, active, currentBid, playerGroup = 'B' }) {
@@ -43,8 +43,12 @@ export default function TeamCard({ team, active, currentBid, playerGroup = 'B' }
     <div className={cardClass}>
       <div className="team-top">
         <div className="team-id">
-          <div className="badge" style={{ background: TEAM_COLORS[team.name] }}>
-          
+          <div className="badge">
+              <img
+    src={TEAM_LOGOS[team.name]}
+    alt={team.name}
+    className="badge-logo"
+  />
           </div>
           <div>
             <div className="team-name">{team.name}</div>

@@ -9,15 +9,15 @@ export const BID_INCREMENT = 300;     // Standard bid increment
 /** Backwards-compat alias – used as floor for slot-reservation math */
 export const MIN_PRICE = GROUP_B_BASE;
 
-export const TEAM_COLORS = {
-  'Shaky Boys': '#e8483d',
-  'Shield United': '#070501ff',
-  'Prime 11': '#2f9e44',
-  'Pheonix FC': '#2a7de1',
-  'Crown United': '#a259e8',
-  'Black Stone FC': '#e85fa0',
-  'Bambolino FC': '#3ec6c6',
-  'Arsenal': '#f2823d',
+export const TEAM_LOGOS = {
+  'United Boys': '/team-logos/united-boys.webp',
+  'Shield United': '/team-logos/shield-united.webp',
+  'Prime 11': '/team-logos/prime11.webp',
+  'Pheonix FC': '/team-logos/phoenix-fc.webp',
+  'Crown United': '/team-logos/crown-united.webp',
+  'Black Stone FC': '/team-logos/blackstone-fc.webp',
+  'Bambolino FC': '/team-logos/bambolino-fc.webp',
+  'Arsenal': '/team-logos/arsenal-fc.webp',
 };
 
 export function remainingSlots(team) {

@@ -10,17 +10,9 @@ export default function RoleSelect() {
         </div>
         <h1>Choose your view</h1>
         <p className="role-select-sub">
-          Everyone connects to the same live auction — pick the screen that matches your role.
+          Everyone connects to the same live auction
         </p>
         <div className="role-cards">
-          <Link to="/auctioneer" className="role-card">
-            <h2>Auctioneer Console</h2>
-            <p>
-              Run the live auction: set the player on the block, raise the bid, choose the
-              winning team, and mark lots sold, skipped, or reset.
-            </p>
-            <span className="role-card-cta">Open console →</span>
-          </Link>
           <Link to="/teams" className="role-card">
             <h2>Team View</h2>
             <p>
