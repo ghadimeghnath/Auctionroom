@@ -450,7 +450,7 @@ filter:none;
   height: 100%;
   object-fit: cover;
 
-  opacity: 0.05;          /* Increase to 0.12 if you want it more visible */
+  opacity: 0.10;          /* Increase to 0.12 if you want it more visible */
   filter: grayscale(100%);
 }
 
@@ -483,8 +483,8 @@ filter:none;
   gap: 10px;
 }
 .badge {
-  width: 34px;
-  height: 34px;
+  width: 54px;
+  height: 54px;
   border-radius: 6px;
   overflow: hidden;
   flex-shrink: 0;
