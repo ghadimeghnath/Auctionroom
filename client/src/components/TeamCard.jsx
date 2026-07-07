@@ -13,11 +13,11 @@ import {
 export default function TeamCard({ team, active, currentBid, playerGroup = 'B' }) {
   const [squadOpen, setSquadOpen] = useState(false);
 
-  const slots   = remainingSlots(team);
-  const max     = maxAllowedBid(team);
-  const full    = slots <= 0;
-  const aCount  = groupACount(team);
-  const check   = active ? canBid(team, currentBid, playerGroup) : { ok: null };
+  const slots = remainingSlots(team);
+  const max = maxAllowedBid(team);
+  const full = slots <= 0;
+  const aCount = groupACount(team);
+  const check = active ? canBid(team, currentBid, playerGroup) : { ok: null };
 
   let chip;
   if (full) {
@@ -41,14 +41,21 @@ export default function TeamCard({ team, active, currentBid, playerGroup = 'B' }
 
   return (
     <div className={cardClass}>
+      <div className="team-card-bg">
+      <img
+        src={TEAM_LOGOS[team.name]}
+        alt=""
+        aria-hidden="true"
+      />
+    </div>
       <div className="team-top">
         <div className="team-id">
           <div className="badge">
-              <img
-    src={TEAM_LOGOS[team.name]}
-    alt={team.name}
-    className="badge-logo"
-  />
+            <img
+              src={TEAM_LOGOS[team.name]}
+              alt={team.name}
+              className="badge-logo"
+            />
           </div>
           <div>
             <div className="team-name">{team.name}</div>
