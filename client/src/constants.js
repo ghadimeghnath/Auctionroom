@@ -13,7 +13,7 @@ export const TEAM_LOGOS = {
   'United Boys': '/team-logos/united-boys.webp',
   'Shield United': '/team-logos/shield-united.webp',
   'Prime 11': '/team-logos/prime11.webp',
-  'Pheonix FC': '/team-logos/phoenix-fc.webp',
+  'Phoenix FC': '/team-logos/phoenix-fc.webp',
   'Crown United': '/team-logos/crown-united.webp',
   'Black Stone FC': '/team-logos/blackstone-fc.webp',
   'Bambolino FC': '/team-logos/bambolino-fc.webp',
