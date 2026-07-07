@@ -2,10 +2,11 @@ import { Link } from 'react-router-dom';
 import { useAuctionState } from '../hooks/useAuctionState.js';
 import Scoreboard from '../components/Scoreboard.jsx';
 import TeamGrid from '../components/TeamGrid.jsx';
+import { useCelebration } from "../hooks/useCelebration";
 
 export default function TeamView() {
   const { state, connected } = useAuctionState();
-
+  useCelebration();
   if (!state) {
     return (
       <div className="page-loading">

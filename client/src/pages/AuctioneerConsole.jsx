@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { socket } from '../socket.js';
 import { celebrate } from "../utils/celebrate";
 import { useAuctionState } from '../hooks/useAuctionState.js';
+import { useCelebration } from "../hooks/useCelebration";
 import { useAuctioneerAuth } from '../hooks/useAuctioneerAuth.js'; // ◄ Import Auth Hook
 import AuctioneerGate from '../components/AuctioneerGate.jsx';       // ◄ Import Gate Component
 import {
@@ -20,6 +21,7 @@ export default function AuctioneerConsole() {
   const { state, connected } = useAuctionState();
   const { status, error, tryAuth } = useAuctioneerAuth(connected); // ◄ Instantiate auth hook
   const [searchTerm, setSearchTerm] = useState('');
+  useCelebration();
 
   // Security Interception: If not authenticated, render the login gate instead
   if (status !== 'authed') {
@@ -216,7 +218,6 @@ export default function AuctioneerConsole() {
               id="mark-sold-btn"
               disabled={soldDisabled}
               onClick={() => {
-                celebrate();
                 socket.emit("markSold");
               }}
               style={{ flex: 1 }}
