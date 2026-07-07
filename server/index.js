@@ -7,13 +7,13 @@ const fs = require('fs');
 const path = require('path');
 
 // ── Tournament constants ────────────────────────────────────────────────────
-const TEAM_NAMES = ['United Boys', 'Shield United', 'Prime 11', 'Phoenix FC', 'Crown United', 'Black Stone FC', 'Bambolino FC', 'Arsenal'];
-const START_PURSE = 12000;
-const TOTAL_SLOTS = 16;
-const MAX_GROUP_A = 2;
-const GROUP_A_BASE = 500;
-const GROUP_B_BASE = 300;
-const BID_INCREMENT = 300;
+const TEAM_NAMES     = ['United Boys', 'Shield United', 'Prime 11', 'Phoenix FC', 'Crown United', 'Black Stone FC', 'Bambolino FC', 'Arsenal'];
+const START_PURSE    = 12000;   
+const TOTAL_SLOTS    = 16;      
+const MAX_GROUP_A    = 2;       
+const GROUP_A_BASE   = 500;     
+const GROUP_B_BASE   = 300;     
+const BID_INCREMENT  = 300;     
 
 function loadInitialPlayers() {
   try {
@@ -36,18 +36,18 @@ function freshTeams() {
 function freshLot() {
   return {
     currentPlayerId: '',
-    playerName: '',
-    playerGroup: 'B',
-    basePrice: GROUP_B_BASE,
-    currentBid: GROUP_B_BASE,
-    soldTo: '',
+    playerName:   '',
+    playerGroup:  'B',
+    basePrice:    GROUP_B_BASE,
+    currentBid:   GROUP_B_BASE,
+    soldTo:       '',
   };
 }
 
 let state = {
   teams: freshTeams(),
   players: loadInitialPlayers(),
-  lastAction: null,
+  lastAction: null, 
   ...freshLot(),
 };
 
@@ -104,18 +104,8 @@ io.on('connection', (socket) => {
       state.basePrice = base;
       state.currentBid = base;
     } else {
-      const soldPlayer = {
-        id: player.id,
-        name: player.name,
-        group: player.group,
-        team: team.name,
-        price: bid,
-      };
       
       Object.assign(state, freshLot());
-    broadcast();
-
-      io.emit("playerSold", soldPlayer);
     }
     broadcast();
   });
@@ -123,7 +113,7 @@ io.on('connection', (socket) => {
   socket.on('setBasePrice', (value) => {
     const base = parseInt(value, 10);
     const minBase = state.playerGroup === 'A' ? GROUP_A_BASE : GROUP_B_BASE;
-    state.basePrice = Number.isFinite(base) ? Math.max(base, minBase) : minBase;
+    state.basePrice  = Number.isFinite(base) ? Math.max(base, minBase) : minBase;
     state.currentBid = state.basePrice;
     broadcast();
   });
@@ -145,31 +135,57 @@ io.on('connection', (socket) => {
     broadcast();
   });
 
-  socket.on('markSold', () => {
-    const name = (state.playerName || '').trim();
-    const bid = state.currentBid || 0;
-    const group = state.playerGroup || 'B';
-    const team = state.teams.find((t) => t.name === state.soldTo);
+socket.on("markSold", () => {
+  const name = (state.playerName || "").trim();
+  const bid = state.currentBid || 0;
+  const group = state.playerGroup || "B";
+  const team = state.teams.find((t) => t.name === state.soldTo);
 
-    if (!name || !team || !state.currentPlayerId) return;
-    const check = canBid(team, bid, group);
-    if (!check.ok) return;
+  if (!name || !team || !state.currentPlayerId) return;
 
-    state.lastAction = { type: 'SOLD', playerId: state.currentPlayerId, teamName: team.name, price: bid };
+  const check = canBid(team, bid, group);
+  if (!check.ok) return;
 
-    team.players.push({ id: state.currentPlayerId, name, price: bid, group });
-    team.purse -= bid;
+  state.lastAction = {
+    type: "SOLD",
+    playerId: state.currentPlayerId,
+    teamName: team.name,
+    price: bid,
+  };
 
-    const player = state.players.find(p => p.id === state.currentPlayerId);
-    if (player) player.status = 'sold';
-
-    Object.assign(state, freshLot());
-    broadcast();
+  team.players.push({
+    id: state.currentPlayerId,
+    name,
+    price: bid,
+    group,
   });
+
+  team.purse -= bid;
+
+  const player = state.players.find(
+    (p) => p.id === state.currentPlayerId
+  );
+
+  if (player) player.status = "sold";
+
+  const soldPlayer = {
+    id: player.id,
+    name: player.name,
+    group: player.group,
+    team: team.name,
+    price: bid,
+  };
+
+  Object.assign(state, freshLot());
+
+  broadcast();
+
+  io.emit("playerSold", soldPlayer);
+});
 
   socket.on('skipPlayer', () => {
     if (!state.currentPlayerId) return;
-
+    
     state.lastAction = { type: 'UNSOLD', playerId: state.currentPlayerId };
 
     const player = state.players.find(p => p.id === state.currentPlayerId);
@@ -194,8 +210,8 @@ io.on('connection', (socket) => {
     }
 
     if (player) {
-      player.status = 'available';
-
+      player.status = 'available'; 
+      
       state.currentPlayerId = player.id;
       state.playerName = player.name;
       state.playerGroup = player.group;
@@ -205,7 +221,7 @@ io.on('connection', (socket) => {
       state.soldTo = '';
     }
 
-    state.lastAction = null;
+    state.lastAction = null; 
     broadcast();
   });
 
