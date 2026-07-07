@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { socket } from '../socket.js';
+import { celebrate } from "../utils/celebrate";
 import { useAuctionState } from '../hooks/useAuctionState.js';
 import { useAuctioneerAuth } from '../hooks/useAuctioneerAuth.js'; // ◄ Import Auth Hook
 import AuctioneerGate from '../components/AuctioneerGate.jsx';       // ◄ Import Gate Component
@@ -18,7 +19,7 @@ import TeamGrid from '../components/TeamGrid.jsx';
 export default function AuctioneerConsole() {
   const { state, connected } = useAuctionState();
   const { status, error, tryAuth } = useAuctioneerAuth(connected); // ◄ Instantiate auth hook
-  const [searchTerm, setSearchTerm] = useState(''); 
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Security Interception: If not authenticated, render the login gate instead
   if (status !== 'authed') {
@@ -41,12 +42,12 @@ export default function AuctioneerConsole() {
     );
   }
 
-  const playerGroup   = state.playerGroup || 'B';
-  const active        = state.playerName.trim().length > 0;
-  const selectedTeam  = state.teams.find((t) => t.name === state.soldTo);
+  const playerGroup = state.playerGroup || 'B';
+  const active = state.playerName.trim().length > 0;
+  const selectedTeam = state.teams.find((t) => t.name === state.soldTo);
   const eligibleCheck = selectedTeam ? canBid(selectedTeam, state.currentBid, playerGroup) : { ok: false };
-  const anyEligible   = state.teams.some((t) => canBid(t, state.currentBid, playerGroup).ok);
-  const soldDisabled  = !active || !state.soldTo || !eligibleCheck.ok;
+  const anyEligible = state.teams.some((t) => canBid(t, state.currentBid, playerGroup).ok);
+  const soldDisabled = !active || !state.soldTo || !eligibleCheck.ok;
 
   const masterList = state.players || [];
   const searchLower = searchTerm.toLowerCase();
@@ -59,7 +60,7 @@ export default function AuctioneerConsole() {
   function teamOptionLabel(t) {
     const c = canBid(t, state.currentBid, playerGroup);
     if (c.ok) return `Team ${t.name}`;
-    if (c.reason === 'full')         return `Team ${t.name}  (squad full)`;
+    if (c.reason === 'full') return `Team ${t.name}  (squad full)`;
     if (c.reason === 'group-a-full') return `Team ${t.name}  (Group A limit reached)`;
     return `Team ${t.name}  (cannot afford)`;
   }
@@ -191,7 +192,7 @@ export default function AuctioneerConsole() {
             >
               <option value="">Select eligible team…</option>
               {state.teams.map((t) => {
-                const c    = canBid(t, state.currentBid, playerGroup);
+                const c = canBid(t, state.currentBid, playerGroup);
                 const aUsed = groupACount(t);
                 return (
                   <option key={t.name} value={t.name} disabled={!c.ok}>
@@ -202,7 +203,7 @@ export default function AuctioneerConsole() {
               })}
             </select>
           </div>
-          
+
           <div className="hint">
             {anyEligible
               ? 'Teams shown in green below can legally place this bid.'
@@ -214,12 +215,15 @@ export default function AuctioneerConsole() {
               className="btn btn-sold"
               id="mark-sold-btn"
               disabled={soldDisabled}
-              onClick={() => socket.emit('markSold')}
+              onClick={() => {
+                celebrate();
+                socket.emit("markSold");
+              }}
               style={{ flex: 1 }}
             >
               Mark sold
             </button>
-            
+
             <button
               className="btn btn-skip"
               id="skip-btn"
@@ -241,9 +245,9 @@ export default function AuctioneerConsole() {
                 socket.emit('undoLastAction');
               }
             }}
-            style={{ 
-              width: '100%', 
-              marginTop: '10px', 
+            style={{
+              width: '100%',
+              marginTop: '10px',
               backgroundColor: state.lastAction ? '#e8483d' : '#333',
               color: state.lastAction ? 'white' : '#666',
               cursor: state.lastAction ? 'pointer' : 'not-allowed'
