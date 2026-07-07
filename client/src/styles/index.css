@@ -221,7 +221,7 @@ filter:none;
 
 /* ===== Layout ===== */
 .wrap {
-  max-width: 1200px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 28px;
   display: grid;
@@ -416,7 +416,7 @@ filter:none;
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 14px;
 }
 @media (max-width: 600px) {
@@ -450,7 +450,7 @@ filter:none;
   height: 100%;
   object-fit: cover;
 
-  opacity: 0.10;          /* Increase to 0.12 if you want it more visible */
+  opacity: 0.09;          /* Increase to 0.12 if you want it more visible */
   filter: grayscale(100%);
 }
 
