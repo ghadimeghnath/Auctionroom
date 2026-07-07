@@ -113,6 +113,8 @@ io.on('connection', (socket) => {
       };
       
       Object.assign(state, freshLot());
+    broadcast();
+
       io.emit("playerSold", soldPlayer);
     }
     broadcast();
