@@ -51,7 +51,7 @@ If you ever run the server on a different machine than the client, set an enviro
 
 ```bash
 VITE_SERVER_URL=http://<server-ip>:4000 npm run dev
-```
+```-
 
 ## Rules baked into the app
 
