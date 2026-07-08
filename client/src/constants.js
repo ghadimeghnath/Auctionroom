@@ -1,10 +1,10 @@
 // ── Football League Cup 2026-27 constants ────────────────────────────────────
 export const START_PURSE   = 12000;   // Points per team
-export const TOTAL_SLOTS   = 16;      // Players per squad
+export const TOTAL_SLOTS   = 15;      // Players per squad
 export const MAX_GROUP_A   = 2;       // Max College (Group A) players per team
 export const GROUP_A_BASE  = 500;     // Group A base price
 export const GROUP_B_BASE  = 300;     // Group B base price
-export const BID_INCREMENT = 300;     // Standard bid increment
+export const BID_INCREMENT = 200;     // Standard bid increment
 
 /** Backwards-compat alias – used as floor for slot-reservation math */
 export const MIN_PRICE = GROUP_B_BASE;

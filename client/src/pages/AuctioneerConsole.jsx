@@ -172,7 +172,7 @@ export default function AuctioneerConsole() {
 
           {/* Bid increment chips */}
           <div className="bid-controls">
-            {[300, 600, 900, 1200].map((amt) => (
+            {[200, 300, 900, 1200].map((amt) => (
               <button
                 key={amt}
                 id={`raise-${amt}`}

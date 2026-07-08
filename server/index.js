@@ -9,11 +9,11 @@ const path = require('path');
 // ── Tournament constants ────────────────────────────────────────────────────
 const TEAM_NAMES     = ['United Boys', 'Shield United', 'Prime 11', 'Phoenix FC', 'Crown United', 'Black Stone FC', 'Bambolino FC', 'Arsenal'];
 const START_PURSE    = 12000;   
-const TOTAL_SLOTS    = 16;      
+const TOTAL_SLOTS    = 15;      
 const MAX_GROUP_A    = 2;       
 const GROUP_A_BASE   = 500;     
 const GROUP_B_BASE   = 300;     
-const BID_INCREMENT  = 300;     
+const BID_INCREMENT  = 200;     
 
 function loadInitialPlayers() {
   try {
